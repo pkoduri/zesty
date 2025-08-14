@@ -1,0 +1,1 @@
+const isValid = password === 'demo123' && username === 'demo'; // Change this!

@@ -1,6 +1,5 @@
 const express = require('express');
 const session = require('express-session');
-const bcrypt = require('bcrypt');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
@@ -27,16 +26,15 @@ app.use(helmet({
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
 
-// Login rate limiting (stricter)
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 login requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 5,
   message: 'Too many login attempts, please try again later.',
   skipSuccessfulRequests: true
 });
@@ -45,22 +43,20 @@ const loginLimiter = rateLimit({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Session configuration
+// Session configuration - FIXED
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'zenflow-cook-partnership-2025',
+  secret: process.env.SESSION_SECRET || 'zenflow-cook-partnership-ultra-secret-2025',
   resave: false,
   saveUninitialized: false,
+  name: 'zenflow.session', // Custom session name
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // HTTPS in production
+    secure: false, // Set to false for development, true for HTTPS in production
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    maxAge: 4 * 60 * 60 * 1000 // 4 hours
   }
 }));
 
-// Serve static files
-app.use(express.static('public'));
-
-// Simple authentication (change these credentials!)
+// Authentication credentials
 const VALID_CREDENTIALS = {
   'demo': 'demo123',
   'zenflow': 'zenflow2025',
@@ -68,20 +64,36 @@ const VALID_CREDENTIALS = {
   'partnership': 'partnership123'
 };
 
-// You can add more users here as needed
-// Example: 'investor': 'investor456'
-
-// Authentication middleware
+// Authentication middleware - FIXED
 const requireAuth = (req, res, next) => {
-  if (req.session.authenticated) {
+  console.log('🔍 Auth Check:', {
+    path: req.path,
+    authenticated: req.session.authenticated,
+    sessionID: req.sessionID,
+    username: req.session.username
+  });
+  
+  if (req.session && req.session.authenticated === true) {
+    console.log('✅ User authenticated:', req.session.username);
     next();
   } else {
+    console.log('❌ User not authenticated, redirecting to login');
     res.redirect('/login');
   }
 };
 
+// Health check (no auth required)
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
 // Login page route
 app.get('/login', (req, res) => {
+  console.log('🔐 Login page requested');
   res.send(`
     <!DOCTYPE html>
     <html lang="en">
@@ -100,18 +112,20 @@ app.get('/login', (req, res) => {
                 font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
                 background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
                 color: white;
-                height: 100vh;
+                min-height: 100vh;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                padding: 1rem;
             }
             
             .floating-element {
-                position: absolute;
+                position: fixed;
                 background: linear-gradient(45deg, #4a90e2, #7b68ee);
                 border-radius: 50%;
                 animation: float 6s ease-in-out infinite;
                 opacity: 0.1;
+                z-index: 1;
             }
 
             .floating-element:nth-child(1) {
@@ -152,7 +166,7 @@ app.get('/login', (req, res) => {
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
                 text-align: center;
                 max-width: 450px;
-                width: 90%;
+                width: 100%;
                 position: relative;
                 z-index: 10;
             }
@@ -307,20 +321,18 @@ app.get('/login', (req, res) => {
             
             <div class="credentials-hint">
                 <strong>Demo Access Available</strong><br>
-                Contact your partnership representative for credentials<br>
-                <em>Demo: demo / demo123</em>
+                <strong>Username:</strong> demo<br>
+                <strong>Password:</strong> demo123
             </div>
         </div>
 
         <script>
-            // Add some interactivity to the login page
             document.querySelector('form').addEventListener('submit', function(e) {
                 const btn = document.querySelector('.login-btn');
                 btn.innerHTML = 'Accessing... ⏳';
                 btn.disabled = true;
             });
 
-            // Auto-focus username field
             document.getElementById('username').focus();
         </script>
     </body>
@@ -332,15 +344,19 @@ app.get('/login', (req, res) => {
 app.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
   
-  // Check credentials
+  console.log('🔐 Login attempt:', { username, hasPassword: !!password });
+  
   if (VALID_CREDENTIALS[username] && VALID_CREDENTIALS[username] === password) {
     req.session.authenticated = true;
     req.session.username = username;
     req.session.loginTime = new Date();
-    console.log(`✅ Successful login: ${username} at ${new Date().toISOString()}`);
+    
+    console.log('✅ Successful login:', username);
+    console.log('📝 Session created:', req.sessionID);
+    
     res.redirect('/');
   } else {
-    console.log(`❌ Failed login attempt: ${username} at ${new Date().toISOString()}`);
+    console.log('❌ Failed login attempt:', username);
     res.redirect('/login?error=1');
   }
 });
@@ -352,101 +368,41 @@ app.get('/logout', (req, res) => {
     if (err) {
       console.log('Session destroy error:', err);
     } else {
-      console.log(`👋 User logged out: ${username} at ${new Date().toISOString()}`);
+      console.log(`👋 User logged out: ${username}`);
     }
     res.redirect('/login');
   });
 });
 
-// Protected route for the main story
-app.get('/', requireAuth, (req, res) => {
-  console.log(`📖 Story accessed by: ${req.session.username} at ${new Date().toISOString()}`);
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Health check for Render
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development'
+// Debug route to check session
+app.get('/debug', (req, res) => {
+  res.json({
+    sessionID: req.sessionID,
+    session: req.session,
+    authenticated: req.session?.authenticated,
+    username: req.session?.username
   });
 });
 
-// Admin route to see active sessions (optional)
-app.get('/admin/status', requireAuth, (req, res) => {
-  if (req.session.username === 'admin' || req.session.username === 'zenflow') {
-    res.json({
-      currentUser: req.session.username,
-      loginTime: req.session.loginTime,
-      sessionActive: true,
-      serverUptime: process.uptime()
-    });
-  } else {
-    res.status(403).json({ error: 'Access denied' });
-  }
+// Serve static files from public directory
+app.use('/static', express.static('public'));
+
+// Protected route for the main story - MUST BE LAST
+app.get('/', requireAuth, (req, res) => {
+  console.log(`📖 Story accessed by: ${req.session.username}`);
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).send(`
-    <html>
-      <head>
-        <title>Page Not Found</title>
-        <style>
-          body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 50px;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
-            color: white;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-          }
-          h1 { color: #4a90e2; }
-          a { color: #4a90e2; text-decoration: none; }
-          a:hover { text-decoration: underline; }
-        </style>
-      </head>
-      <body>
-        <h1>404 - Page Not Found</h1>
-        <p>The page you're looking for doesn't exist.</p>
-        <p><a href="/login">← Back to Login</a></p>
-      </body>
-    </html>
-  `);
+  console.log('❓ 404 - Path not found:', req.path);
+  res.status(404).redirect('/login');
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error('Error:', err.stack);
-  res.status(500).send(`
-    <html>
-      <head>
-        <title>Server Error</title>
-        <style>
-          body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 50px;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
-            color: white;
-          }
-          h1 { color: #ff6b6b; }
-          a { color: #4a90e2; text-decoration: none; }
-        </style>
-      </head>
-      <body>
-        <h1>500 - Server Error</h1>
-        <p>Something went wrong on our end.</p>
-        <p><a href="/login">← Back to Login</a></p>
-      </body>
-    </html>
-  `);
+  console.error('💥 Server Error:', err);
+  res.status(500).redirect('/login');
 });
 
 // Start server
@@ -457,8 +413,7 @@ app.listen(PORT, () => {
   console.log(`🔐 Authentication: Enabled`);
   console.log(`📝 Available credentials:`);
   Object.keys(VALID_CREDENTIALS).forEach(username => {
-    console.log(`   - ${username}`);
+    console.log(`   - ${username} / ${VALID_CREDENTIALS[username]}`);
   });
-  console.log(`🔗 Local access: http://localhost:${PORT}`);
   console.log(`✨ Ready to showcase the partnership vision!`);
 });

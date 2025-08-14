@@ -17,29 +17,29 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    secure: false, // Set to true if using HTTPS in production
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    secure: false,
+    maxAge: 24 * 60 * 60 * 1000
   }
 }));
 
-// Simple user store (in production, use a database)
+// CORRECTED: Generate hashes dynamically to ensure they work
 const users = [
   {
     id: 1,
     username: 'zenflow-team',
-    password: '$2a$10$X9qqJ4VqVqXqJ1qVqXqJ1uVqXqJ1qVqXqJ1qVqXqJ1qVqXqJ1qVq', // 'zenflow2030'
+    password: bcrypt.hashSync('zenflow2030', 10),
     role: 'team'
   },
   {
     id: 2,
     username: 'zenflow-leadership',
-    password: '$2a$10$Y8ppK3WpWpYpK2pWpYpK2uWpYpK2pWpYpK2pWpYpK2pWpYpK2pWp', // 'leadership2030'
+    password: bcrypt.hashSync('leadership2030', 10),
     role: 'leadership'
   },
   {
     id: 3,
     username: 'demo',
-    password: '$2a$10$WHmkKKQAFyNGAZgZjDL2K.Sp1/FKGKVrI7wKZyXQ8pVvL5dP5nJvi', // 'demo123'
+    password: bcrypt.hashSync('demo123', 10),
     role: 'demo'
   }
 ];
@@ -64,15 +64,18 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   
-  // Find user
+  console.log('Login attempt:', username); // Debug log
+  
   const user = users.find(u => u.username === username);
   
   if (user && await bcrypt.compare(password, user.password)) {
     req.session.userId = user.id;
     req.session.username = user.username;
     req.session.role = user.role;
+    console.log('Login successful for:', username); // Debug log
     res.json({ success: true });
   } else {
+    console.log('Login failed for:', username); // Debug log
     res.json({ success: false, message: 'Invalid credentials' });
   }
 });
@@ -103,5 +106,5 @@ app.listen(PORT, () => {
   console.log('\nLogin Credentials:');
   console.log('Team Access: zenflow-team / zenflow2030');
   console.log('Leadership: zenflow-leadership / leadership2030');
-  
+  console.log('Demo: demo / demo123');
 });

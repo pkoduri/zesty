@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenflow & Cook: A Visionary Partnership Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .story-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: linear-gradient(45deg, #4a90e2, #7b68ee);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 80%;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #4a90e2, #7b68ee, #50c878);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #b0b8c4;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .start-journey-btn {
+            background: linear-gradient(45deg, #4a90e2, #7b68ee);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+        }
+
+        .start-journey-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(74, 144, 226, 0.5);
+        }
+
+        .chapter {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            display: none;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .chapter.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .chapter-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #4a90e2;
+        }
+
+        .chapter-subtitle {
+            font-size: 1.3rem;
+            color: #b0b8c4;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #4a90e2, #7b68ee);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 4rem;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+            transform: translateX(50px);
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 0 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-year {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4a90e2;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .timeline-description {
+            color: #b0b8c4;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            background: linear-gradient(45deg, rgba(74, 144, 226, 0.1), rgba(123, 104, 238, 0.1));
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        .metric-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4a90e2;
+            display: block;
+        }
+
+        .metric-label {
+            color: #b0b8c4;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(74, 144, 226, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, #4a90e2, #7b68ee);
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        .interactive-element {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .interactive-element:hover {
+            transform: scale(1.05);
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .interactive-element:hover .tooltip {
+            opacity: 1;
+        }
+
+        .choice-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .choice-btn {
+            background: linear-gradient(45deg, rgba(74, 144, 226, 0.2), rgba(123, 104, 238, 0.2));
+            border: 2px solid #4a90e2;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 250px;
+        }
+
+        .choice-btn:hover {
+            background: linear-gradient(45deg, rgba(74, 144, 226, 0.4), rgba(123, 104, 238, 0.4));
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+        }
+
+        .choice-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .choice-description {
+            font-size: 0.9rem;
+            color: #b0b8c4;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .chapter-title {
+                font-size: 2rem;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                flex-direction: column !important;
+                margin-left: 40px;
+            }
+            
+            .timeline-content {
+                margin: 0;
+            }
+            
+            .choice-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="story-container">
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <h1 class="hero-title">Zenflow & Cook</h1>
+            <p class="hero-subtitle">
+                A Visionary Partnership Journey to Transform BPH Care
+            </p>
+            <p class="hero-subtitle" style="font-size: 1.1rem; margin-bottom: 3rem;">
+                Imagine it's late 2025. Zenflow's Spring System is on the cusp of FDA approval, 
+                and Cook Medical steps in as a powerful ally. What follows is an inspiring journey 
+                that transforms BPH care forever.
+            </p>
+            <button class="start-journey-btn" onclick="startJourney()">
+                Begin the Journey →
+            </button>
+        </section>
+
+        <!-- Chapter 1: Foundation -->
+        <section class="chapter" id="chapter1">
+            <div class="chapter-header">
+                <h2 class="chapter-title">Phase 1: Laying the Foundation</h2>
+                <p class="chapter-subtitle">2025-2026: Joining Forces</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content interactive-element" onclick="showDetails('partnership')">
+                        <div class="tooltip">Click to explore partnership details</div>
+                        <div class="timeline-year">Late 2025</div>
+                        <div class="timeline-title">Strategic Partnership Forms</div>
+                        <div class="timeline-description">
+                            Cook makes a strategic investment and secures an exclusive distribution & co-marketing agreement with Zenflow. 
+                            This partnership cements a shared vision: bring the Spring System to as many patients as possible, as quickly as possible.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content interactive-element" onclick="showDetails('fda')">
+                        <div class="tooltip">Click to see FDA approval impact</div>
+                        <div class="timeline-year">Early 2026</div>
+                        <div class="timeline-title">FDA Approval & Launch Preparation</div>
+                        <div class="timeline-description">
+                            The Zenflow Spring System achieves FDA approval. Cook's commercial teams work behind the scenes on launch plans. 
+                            Cook's sales force is trained and ready to introduce the Spring System on Day One.
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <span class="metric-number">100+</span>
+                                <span class="metric-label">Urologists Trained</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">50+</span>
+                                <span class="metric-label">Centers Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content interactive-element" onclick="showDetails('firstcases')">
+                        <div class="tooltip">Click to see early results</div>
+                        <div class="timeline-year">Mid 2026</div>
+                        <div class="timeline-title">First Cases & Physician Engagement</div>
+                        <div class="timeline-description">
+                            Within weeks of approval, the first wave of Spring System procedures is performed at select Centers of Excellence. 
+                            Results are outstanding – patients report almost immediate symptom relief and minimal discomfort.
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <span class="metric-number">98%</span>
+                                <span class="metric-label">Patient Satisfaction</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">50+</span>
+                                <span class="metric-label">Successful Procedures</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="choice-buttons">
+                <div class="choice-btn" onclick="nextChapter()">
+                    <div class="choice-title">Continue the Journey</div>
+                    <div class="choice-description">See how momentum builds in Phase 2</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 2: Momentum -->
+        <section class="chapter" id="chapter2">
+            <div class="chapter-header">
+                <h2 class="chapter-title">Phase 2: Momentum & Market Expansion</h2>
+                <p class="chapter-subtitle">2026-2028: Hyper-Growth Mode</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content interactive-element" onclick="showDetails('scaling')">
+                        <div class="tooltip">Click to explore scaling strategy</div>
+                        <div class="timeline-year">2027</div>
+                        <div class="timeline-title">Scaling Physician Adoption</div>
+                        <div class="timeline-description">
+                            Cook orchestrates a massive physician training and outreach program. A Center of Excellence network is established, 
+                            creating a critical mass of expertise across the country.
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <span class="metric-number">500+</span>
+                                <span class="metric-label">Trained Urologists</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">15</span>
+                                <span class="metric-label">Countries Available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content interactive-element" onclick="showDetails('awareness')">
+                        <div class="tooltip">Click to see patient impact</div>
+                        <div class="timeline-year">2027-2028</div>
+                        <div class="timeline-title">Direct-to-Patient Awareness</div>
+                        <div class="timeline-description">
+                            Patient education initiatives launch across digital platforms nationwide. Men hear about the "new gentle spring implant" 
+                            that can free them from lifelong medications and invasive surgery.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content interactive-element" onclick="showDetails('reimbursement')">
+                        <div class="tooltip">Click to see financial breakthrough</div>
+                        <div class="timeline-year">2028</div>
+                        <div class="timeline-title">Reimbursement Breakthrough</div>
+                        <div class="timeline-description">
+                            A new Category I CPT code is secured – a remarkably fast accomplishment. Medicare and several private insurers 
+                            establish payment policies, removing financial barriers for patients and physicians.
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <span class="metric-number">3,000+</span>
+                                <span class="metric-label">Procedures Completed</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">15%</span>
+                                <span class="metric-label">Market Share Captured</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="choice-buttons">
+                <div class="choice-btn" onclick="nextChapter()">
+                    <div class="choice-title">Reach the Climax</div>
+                    <div class="choice-description">Discover the two paths to triumph</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 3: Culmination -->
+        <section class="chapter" id="chapter3">
+            <div class="chapter-header">
+                <h2 class="chapter-title">Phase 3: Culmination of the Journey</h2>
+                <p class="chapter-subtitle">2029-2030: Two Paths, One Triumph</p>
+            </div>
+            
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div class="timeline-description" style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem;">
+                    By 2029, Zenflow stands at a crossroads of success with two golden paths ahead. 
+                    Both options represent tremendous victory for the partnership.
+                </div>
+
+                <div class="choice-buttons">
+                    <div class="choice-btn" onclick="showPath('acquisition')">
+                        <div class="choice-title">Path 1: Cook Acquisition</div>
+                        <div class="choice-description">
+                            Cook acquires Zenflow in a deal exceeding $400 million, bringing the Spring System 
+                            to every major hospital network worldwide.
+                        </div>
+                    </div>
+                    <div class="choice-btn" onclick="showPath('ipo')">
+                        <div class="choice-title">Path 2: Independent IPO</div>
+                        <div class="choice-description">
+                            Zenflow launches a successful IPO with multi-billion dollar valuation, 
+                            standing proudly alongside industry giants.
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pathDetails" style="margin-top: 3rem; opacity: 0; transition: all 0.5s ease;">
+                    <!-- Path details will be inserted here -->
+                </div>
+
+                <div class="metrics-grid" style="margin-top: 3rem;">
+                    <div class="metric-card interactive-element">
+                        <div class="tooltip">Lives transformed</div>
+                        <span class="metric-number">100,000+</span>
+                        <span class="metric-label">Patients Treated</span>
+                    </div>
+                    <div class="metric-card interactive-element">
+                        <div class="tooltip">Market leadership achieved</div>
+                        <span class="metric-number">25%</span>
+                        <span class="metric-label">BPH Market Share</span>
+                    </div>
+                    <div class="metric-card interactive-element">
+                        <div class="tooltip">Global expansion complete</div>
+                        <span class="metric-number">30+</span>
+                        <span class="metric-label">Countries Served</span>
+                    </div>
+                    <div class="metric-card interactive-element">
+                        <div class="tooltip">Financial success</div>
+                        <span class="metric-number">$1B+</span>
+                        <span class="metric-label">Company Valuation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="choice-buttons" style="margin-top: 3rem;">
+                <div class="choice-btn" onclick="nextChapter()">
+                    <div class="choice-title">See the Impact</div>
+                    <div class="choice-description">Discover how BPH care is revolutionized</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 4: Impact -->
+        <section class="chapter" id="chapter4">
+            <div class="chapter-header">
+                <h2 class="chapter-title">The Revolutionary Impact</h2>
+                <p class="chapter-subtitle">How Zenflow & Cook Transform Healthcare</p>
+            </div>
+            
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div class="timeline-content" style="margin-bottom: 3rem;">
+                    <div class="timeline-title" style="text-align: center; color: #4a90e2;">
+                        A New Standard of Care Emerges
+                    </div>
+                    <div class="timeline-description" style="text-align: center; font-size: 1.1rem;">
+                        By 2030, the Zenflow-Cook partnership has fundamentally reshaped BPH care. 
+                        What began as a bold idea has blossomed into an enterprise that changed thousands of lives 
+                        and challenged the status quo in men's health.
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-number">98%</span>
+                        <span class="metric-label">Patient Satisfaction Rate</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">30%</span>
+                        <span class="metric-label">Cook Revenue Growth</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">Zero</span>
+                        <span class="metric-label">Major Complications</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">5 Years</span>
+                        <span class="metric-label">Proven Durability</span>
+                    </div>
+                </div>
+
+                <div class="timeline-content" style="margin-top: 3rem;">
+                    <div class="timeline-title">The Partnership's Legacy</div>
+                    <div class="timeline-description">
+                        <strong>For Zenflow:</strong> From zero commercial presence to capturing 25% of the BPH market, 
+                        with technology lauded for expanding care to men who previously had limited options.<br><br>
+                        
+                        <strong>For Cook:</strong> A 30% boost in Urology division revenue and reputation as an innovator 
+                        that can spot and foster breakthrough solutions.<br><br>
+                        
+                        <strong>For Patients:</strong> Over 100,000 men have had their quality of life restored without invasive surgery, 
+                        avoiding hospital stays and maintaining their active lifestyles.<br><br>
+                        
+                        <strong>For Healthcare:</strong> A new paradigm where minimally invasive BPH therapy is defined not by 
+                        cutting or heating, but by Zenflow's gentle spring approach.
+                    </div>
+                </div>
+
+                <div class="choice-buttons" style="margin-top: 3rem;">
+                    <div class="choice-btn" onclick="showConclusion()">
+                        <div class="choice-title">The Future Awaits</div>
+                        <div class="choice-description">See what this partnership means for Cook and Zenflow</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="chapter" id="conclusion">
+            <div class="chapter-header">
+                <h2 class="chapter-title">Your Partnership. Your Future.</h2>
+                <p class="chapter-subtitle">The Vision Becomes Reality</p>
+            </div>
+            
+            <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+                <div class="timeline-content">
+                    <div class="timeline-description" style="font-size: 1.2rem; line-height: 1.8;">
+                        This is the future that Zenflow can achieve with Cook quietly lighting the path – 
+                        a future where a bold vision, backed by the right partnership, becomes an inspiring reality.
+                        <br><br>
+                        <strong>Cook's quiet orchestration. Zenflow's innovation spotlight. 
+                        Patients' lives transformed. Healthcare revolutionized.</strong>
+                        <br><br>
+                        The journey from 2025 to 2030 paints a picture of visionary partnership: 
+                        one that starts with cooperation, builds with trust and execution, 
+                        and ends with transformation for everyone involved.
+                    </div>
+                </div>
+
+                <div class="choice-buttons">
+                    <div class="choice-btn" onclick="restartJourney()">
+                        <div class="choice-title">Experience Again</div>
+                        <div class="choice-description">Relive the transformative journey</div>
+                    </div>
+                    <div class="choice-btn" onclick="window.open('mailto:partnership@cook.com?subject=Zenflow Partnership Discussion', '_blank')">
+                        <div class="choice-title">Start the Conversation</div>
+                        <div class="choice-description">Let's make this vision reality</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="previousChapter()" disabled>← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="nextChapter()">Next →</button>
+    </div>
+
+    <script>
+        let currentChapter = -1;
+        const totalChapters = 5;
+
+        function updateProgress() {
+            const progress = ((currentChapter + 1) / (totalChapters + 1)) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentChapter <= 0;
+            nextBtn.disabled = currentChapter >= totalChapters;
+            
+            if (currentChapter === totalChapters) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'block';
+            }
+        }
+
+        function showChapter(chapterIndex) {
+            // Hide all chapters
+            const chapters = document.querySelectorAll('.chapter');
+            chapters.forEach(chapter => {
+                chapter.classList.remove('active');
+            });
+
+            // Hide hero if showing chapters
+            if (chapterIndex >= 0) {
+                document.getElementById('hero').style.display = 'none';
+            }
+
+            // Show current chapter
+            if (chapterIndex >= 0) {
+                const chapter = document.getElementById(`chapter${chapterIndex + 1}`);
+                if (chapter) {
+                    chapter.classList.add('active');
+                    animateTimelineItems(chapter);
+                }
+            }
+
+            updateProgress();
+            updateNavigation();
+        }
+
+        function animateTimelineItems(chapter) {
+            const items = chapter.querySelectorAll('.timeline-item');
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('animate');
+                }, index * 200);
+            });
+        }
+
+        function startJourney() {
+            currentChapter = 0;
+            showChapter(0);
+        }
+
+        function nextChapter() {
+            if (currentChapter < totalChapters) {
+                currentChapter++;
+                showChapter(currentChapter);
+            }
+        }
+
+        function previousChapter() {
+            if (currentChapter > 0) {
+                currentChapter--;
+                showChapter(currentChapter);
+            } else if (currentChapter === 0) {
+                currentChapter = -1;
+                document.getElementById('hero').style.display = 'flex';
+                const chapters = document.querySelectorAll('.chapter');
+                chapters.forEach(chapter => {
+                    chapter.classList.remove('active');
+                });
+                updateProgress();
+                updateNavigation();
+            }
+        }
+
+        function showDetails(type) {
+            const details = {
+                partnership: {
+                    title: "Strategic Partnership Details",
+                    content: "Cook's exclusive distribution & co-marketing agreement provides Zenflow with immediate access to Cook's global infrastructure, established relationships with 500+ urology centers, and proven commercialization expertise. This partnership removes typical startup barriers and accelerates market entry by 2-3 years."
+                },
+                fda: {
+                    title: "FDA Approval Impact",
+                    content: "With Cook's regulatory expertise and preparation, the FDA approval process is streamlined. Cook's teams are ready on Day One with trained sales force, established supply chains, and pre-negotiated hospital contracts, ensuring immediate market penetration."
+                },
+                firstcases: {
+                    title: "Early Clinical Success",
+                    content: "The first 50 procedures demonstrate exceptional outcomes: 98% patient satisfaction, immediate symptom relief, and zero major complications. These results, achieved at Cook's partner Centers of Excellence, create powerful proof points for rapid expansion."
+                },
+                scaling: {
+                    title: "Scaling Strategy",
+                    content: "Cook orchestrates physician training across major urology conferences, establishes a formal Center of Excellence network, and leverages its field presence to train 500+ urologists by 2027. This creates critical mass and peer-to-peer advocacy."
+                },
+                awareness: {
+                    title: "Patient Awareness Campaign",
+                    content: "Cook's marketing expertise amplifies Zenflow's patient education initiatives. Digital campaigns, waiting room materials, and physician referral programs drive patient demand, with inquiries at urology clinics jumping 300%."
+                },
+                reimbursement: {
+                    title: "Reimbursement Breakthrough",
+                    content: "Cook's market access team leverages relationships with payers and compelling clinical data to secure a Category I CPT code by 2028 - remarkably fast for the industry. This removes financial barriers and accelerates adoption."
+                }
+            };
+
+            if (details[type]) {
+                alert(details[type].title + '\n\n' + details[type].content);
+            }
+        }
+
+        function showPath(pathType) {
+            const pathDetails = document.getElementById('pathDetails');
+            
+            if (pathType === 'acquisition') {
+                pathDetails.innerHTML = `
+                    <div class="timeline-content">
+                        <div class="timeline-title" style="color: #4a90e2;">Path 1: Strategic Acquisition</div>
+                        <div class="timeline-description">
+                            Cook Medical moves to bring Zenflow wholly into the Cook family with a strategic acquisition 
+                            exceeding $400 million. Zenflow's identity and innovation-driven culture are preserved, 
+                            becoming a high-profile division within Cook.
+                            <br><br>
+                            <strong>Benefits:</strong>
+                            <br>• Full Cook global infrastructure access
+                            <br>• Spring System in every major hospital network
+                            <br>• Decades of guaranteed impact and resources
+                            <br>• Fortune 500 company backing for founders and employees
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <span class="metric-number">$400M+</span>
+                                <span class="metric-label">Acquisition Value</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">100%</span>
+                                <span class="metric-label">Global Market Access</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (pathType === 'ipo') {
+                pathDetails.innerHTML = `
+                    <div class="timeline-content">
+                        <div class="timeline-title" style="color: #7b68ee;">Path 2: Independent IPO Success</div>
+                        <div class="timeline-description">
+                            Zenflow launches a successful IPO with multi-billion dollar valuation, riding on four years 
+                            of stellar growth while maintaining partnership benefits with Cook. Cook retains equity stake 
+                            and long-term distribution contract.
+                            <br><br>
+                            <strong>Benefits:</strong>
+                            <br>• Independent company status and autonomy
+                            <br>• Massive capital for further expansion and R&D
+                            <br>• Continued Cook partnership advantages
+                            <br>• Recognition as industry innovator alongside giants like Teleflex
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <span class="metric-number">$2B+</span>
+                                <span class="metric-label">IPO Valuation</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-number">Ongoing</span>
+                                <span class="metric-label">Cook Partnership</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            pathDetails.style.opacity = '1';
+        }
+
+        function showConclusion() {
+            currentChapter = 4;
+            showChapter(4);
+        }
+
+        function restartJourney() {
+            currentChapter = -1;
+            document.getElementById('hero').style.display = 'flex';
+            const chapters = document.querySelectorAll('.chapter');
+            chapters.forEach(chapter => {
+                chapter.classList.remove('active');
+            });
+            
+            // Reset timeline animations
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach(item => {
+                item.classList.remove('animate');
+            });
+            
+            // Reset path details
+            document.getElementById('pathDetails').style.opacity = '0';
+            document.getElementById('pathDetails').innerHTML = '';
+            
+            updateProgress();
+            updateNavigation();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                if (currentChapter === -1) {
+                    startJourney();
+                } else {
+                    nextChapter();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousChapter();
+            } else if (e.key === 'Escape') {
+                restartJourney();
+            }
+        });
+
+        // Initialize
+        updateNavigation();
+
+        // Add smooth scrolling for chapter transitions
+        function smoothScrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Override chapter navigation to include smooth scrolling
+        const originalNextChapter = nextChapter;
+        nextChapter = function() {
+            originalNextChapter();
+            setTimeout(smoothScrollToTop, 100);
+        };
+
+        const originalPreviousChapter = previousChapter;
+        previousChapter = function() {
+            originalPreviousChapter();
+            setTimeout(smoothScrollToTop, 100);
+        };
+
+        // Add interactive hover effects for timeline items
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-content');
+            timelineItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+
+        // Add particle effect on hero section
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = '#4a90e2';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.opacity = '0.7';
+            particle.style.zIndex = '-1';
+            
+            const startX = Math.random() * window.innerWidth;
+            const startY = window.innerHeight + 10;
+            
+            particle.style.left = startX + 'px';
+            particle.style.top = startY + 'px';
+            
+            document.body.appendChild(particle);
+            
+            const animation = particle.animate([
+                { transform: 'translateY(0px)', opacity: 0.7 },
+                { transform: `translateY(-${window.innerHeight + 100}px)`, opacity: 0 }
+            ], {
+                duration: 3000 + Math.random() * 2000,
+                easing: 'linear'
+            });
+            
+            animation.addEventListener('finish', () => {
+                particle.remove();
+            });
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 300);
+
+        // Add typing effect for hero subtitle
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            
+            type();
+        }
+
+        // Initialize typing effect when page loads
+        window.addEventListener('load', function() {
+            const subtitle = document.querySelector('.hero-subtitle');
+            const originalText = subtitle.textContent;
+            typeWriter(subtitle, originalText, 30);
+        });
+    </script>
+</body>
+</html>

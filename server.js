@@ -27,13 +27,13 @@ const users = [
   {
     id: 1,
     username: 'zenflow-team',
-    password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // 'zenflow2030'
+    password: '$2a$10$X9qqJ4VqVqXqJ1qVqXqJ1uVqXqJ1qVqXqJ1qVqXqJ1qVqXqJ1qVq', // 'zenflow2030'
     role: 'team'
   },
   {
     id: 2,
     username: 'zenflow-leadership',
-    password: '$2a$10$2y0XZUf9.tgPWVX5xt/t8.YvG4XCnXJ4bVvOLkPrjb8ZKWl5rqtEa', // 'leadership2030'
+    password: '$2a$10$Y8ppK3WpWpYpK2pWpYpK2uWpYpK2pWpYpK2pWpYpK2pWpYpK2pWp', // 'leadership2030'
     role: 'leadership'
   },
   {

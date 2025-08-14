@@ -1,11 +1,56 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Get user info and setup UI
+    fetchUserInfo();
+    
     // Timeline navigation functionality
     const timelineYears = document.querySelectorAll('.timeline-year');
     const storySections = document.querySelectorAll('.story-section');
     const timelineNav = document.getElementById('timeline-nav');
+    const logoutButton = document.getElementById('logoutButton');
     
     // Initially hide timeline nav
     timelineNav.style.transform = 'translateY(-100%)';
+    
+    // Logout functionality
+    logoutButton.addEventListener('click', async () => {
+        try {
+            const response = await fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Force redirect even if logout fails
+            window.location.href = '/login';
+        }
+    });
+    
+    // Fetch user information
+    async function fetchUserInfo() {
+        try {
+            const response = await fetch('/api/user');
+            if (response.ok) {
+                const user = await response.json();
+                document.getElementById('userName').textContent = user.username;
+                
+                // Add role-based styling
+                const userInfo = document.getElementById('userInfo');
+                userInfo.classList.add(`role-${user.role}`);
+            } else {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+            window.location.href = '/login';
+        }
+    }
     
     // Show sections based on timeline selection
     function showSection(year) {
@@ -223,6 +268,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (e.target.classList.contains('cta-button')) {
             console.log('Started journey');
+        }
+        
+        if (e.target.classList.contains('logout-button')) {
+            console.log('User logout');
         }
     });
 });

@@ -1,97 +1,5 @@
-const express = require('express');
-const session = require('express-session');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-const path = require('path');
+// Find this section in your server.js and replace the login page HTML:
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Security middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"],
-      fontSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'none'"],
-    },
-  },
-}));
-
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: 'Too many requests from this IP, please try again later.'
-});
-app.use(limiter);
-
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: 'Too many login attempts, please try again later.',
-  skipSuccessfulRequests: true
-});
-
-// Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// Session configuration - FIXED
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'zenflow-cook-partnership-ultra-secret-2025',
-  resave: false,
-  saveUninitialized: false,
-  name: 'zenflow.session', // Custom session name
-  cookie: {
-    secure: false, // Set to false for development, true for HTTPS in production
-    httpOnly: true,
-    maxAge: 4 * 60 * 60 * 1000 // 4 hours
-  }
-}));
-
-// Authentication credentials
-const VALID_CREDENTIALS = {
-  'demo': 'demo123',
-  'zenflow': 'zenflow2025',
-  'cook': 'cook2025',
-  'partnership': 'partnership123'
-};
-
-// Authentication middleware - FIXED
-const requireAuth = (req, res, next) => {
-  console.log('🔍 Auth Check:', {
-    path: req.path,
-    authenticated: req.session.authenticated,
-    sessionID: req.sessionID,
-    username: req.session.username
-  });
-  
-  if (req.session && req.session.authenticated === true) {
-    console.log('✅ User authenticated:', req.session.username);
-    next();
-  } else {
-    console.log('❌ User not authenticated, redirecting to login');
-    res.redirect('/login');
-  }
-};
-
-// Health check (no auth required)
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
-});
-
-// Login page route
 app.get('/login', (req, res) => {
   console.log('🔐 Login page requested');
   res.send(`
@@ -320,9 +228,8 @@ app.get('/login', (req, res) => {
             </form>
             
             <div class="credentials-hint">
-                <strong>Demo Access Available</strong><br>
-                <strong>Username:</strong> demo<br>
-                <strong>Password:</strong> demo123
+                <strong>Secure Access Required</strong><br>
+                Contact your partnership representative for access credentials
             </div>
         </div>
 
@@ -338,82 +245,4 @@ app.get('/login', (req, res) => {
     </body>
     </html>
   `);
-});
-
-// Handle login POST request
-app.post('/login', loginLimiter, (req, res) => {
-  const { username, password } = req.body;
-  
-  console.log('🔐 Login attempt:', { username, hasPassword: !!password });
-  
-  if (VALID_CREDENTIALS[username] && VALID_CREDENTIALS[username] === password) {
-    req.session.authenticated = true;
-    req.session.username = username;
-    req.session.loginTime = new Date();
-    
-    console.log('✅ Successful login:', username);
-    console.log('📝 Session created:', req.sessionID);
-    
-    res.redirect('/');
-  } else {
-    console.log('❌ Failed login attempt:', username);
-    res.redirect('/login?error=1');
-  }
-});
-
-// Logout route
-app.get('/logout', (req, res) => {
-  const username = req.session.username;
-  req.session.destroy((err) => {
-    if (err) {
-      console.log('Session destroy error:', err);
-    } else {
-      console.log(`👋 User logged out: ${username}`);
-    }
-    res.redirect('/login');
-  });
-});
-
-// Debug route to check session
-app.get('/debug', (req, res) => {
-  res.json({
-    sessionID: req.sessionID,
-    session: req.session,
-    authenticated: req.session?.authenticated,
-    username: req.session?.username
-  });
-});
-
-// Serve static files from public directory
-app.use('/static', express.static('public'));
-
-// Protected route for the main story - MUST BE LAST
-app.get('/', requireAuth, (req, res) => {
-  console.log(`📖 Story accessed by: ${req.session.username}`);
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// 404 handler
-app.use((req, res) => {
-  console.log('❓ 404 - Path not found:', req.path);
-  res.status(404).redirect('/login');
-});
-
-// Error handler
-app.use((err, req, res, next) => {
-  console.error('💥 Server Error:', err);
-  res.status(500).redirect('/login');
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Zenflow-Cook Partnership Story Server`);
-  console.log(`📍 Running on port ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔐 Authentication: Enabled`);
-  console.log(`📝 Available credentials:`);
-  Object.keys(VALID_CREDENTIALS).forEach(username => {
-    console.log(`   - ${username} / ${VALID_CREDENTIALS[username]}`);
-  });
-  console.log(`✨ Ready to showcase the partnership vision!`);
 });

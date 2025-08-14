@@ -103,5 +103,5 @@ app.listen(PORT, () => {
   console.log('\nLogin Credentials:');
   console.log('Team Access: zenflow-team / zenflow2030');
   console.log('Leadership: zenflow-leadership / leadership2030');
-  console.log('Demo: demo / demo123');
+  
 });
